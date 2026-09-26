@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Runtime logs
+logs/
+
+# MLflow
+mlflow.db
+mlruns/
+src/mlruns/
+
+# Trained models
+models/
+
+# IDE
+.idea/
