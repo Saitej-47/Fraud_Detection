@@ -1,1242 +1,3529 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Fraud Detection System</title>
+
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root{
+
+    --bg:#060a14;
+    --panel:rgba(13,20,36,.78);
+    --panel2:rgba(18,27,46,.72);
+
+    --border:rgba(120,145,190,.22);
+
+    --text:#f4f7ff;
+    --muted:#91a0bd;
+
+    --blue:#4d7cff;
+    --purple:#765cff;
+
+    --green:#20d394;
+    --red:#ff5368;
+    --yellow:#ffc857;
+
 }
 
-:root {
-    --color-bg-primary: #0f1419;
-    --color-bg-secondary: #1a1f2e;
-    --color-bg-tertiary: #252d3d;
-    --color-border: rgba(255, 255, 255, 0.08);
-    --color-border-hover: rgba(255, 255, 255, 0.15);
 
-    --color-text-primary: #f0f4f8;
-    --color-text-secondary: #a0aac0;
-    --color-text-muted: #788096;
+/* =========================================================
+   RESET
+========================================================= */
 
-    --color-fraud: #ff5757;
-    --color-fraud-bg: rgba(255, 87, 87, 0.1);
-    --color-fraud-light: rgba(255, 87, 87, 0.05);
-
-    --color-warning: #ffa500;
-    --color-warning-bg: rgba(255, 165, 0, 0.1);
-    --color-warning-light: rgba(255, 165, 0, 0.05);
-
-    --color-success: #10b981;
-    --color-success-bg: rgba(16, 185, 129, 0.1);
-    --color-success-light: rgba(16, 185, 129, 0.05);
-
-    --color-accent: #3b82f6;
-    --color-accent-light: rgba(59, 130, 246, 0.1);
-
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.12);
-    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.16);
-    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.2);
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, var(--color-bg-primary) 0%, #151a27 100%);
-    color: var(--color-text-primary);
-    min-height: 100vh;
-    padding: 40px 24px;
+
+/* =========================================================
+   BODY + BACKGROUND IMAGE
+========================================================= */
+
+body{
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    background:
+
+        linear-gradient(
+            rgba(5,9,20,.46),
+            rgba(5,9,20,.72)
+        ),
+
+        url("background.png");
+
+    background-size:cover;
+
+    background-position:center center;
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
+
+    overflow-x:hidden;
 }
 
-.container {
-    max-width: 1350px;
-    margin: 0 auto;
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container{
+
+    width:min(1450px,94%);
+
+    margin:auto;
+
+    padding:30px 0 60px;
 }
 
-/* ============================================================
+
+/* =========================================================
    HEADER
-============================================================ */
+========================================================= */
 
-.header {
-    margin-bottom: 48px;
-    animation: slideDown 0.6s ease-out;
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:25px;
+
+    padding:30px 34px;
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    background:rgba(10,16,30,.70);
+
+    backdrop-filter:blur(18px);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.30);
+
+    margin-bottom:22px;
 }
 
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
 }
 
-.header-content {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 32px;
+
+.logo{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:18px;
+
+    display:grid;
+
+    place-items:center;
+
+    font-size:29px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--purple)
+        );
+
+    box-shadow:
+        0 10px 35px
+        rgba(79,124,255,.35);
 }
 
-.header-text h1 {
-    font-size: 42px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin-bottom: 12px;
-    background: linear-gradient(135deg, #f0f4f8 0%, #c5d3e8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+
+.header h1{
+
+    font-size:31px;
+
+    letter-spacing:-.8px;
 }
 
-.header-text p {
-    font-size: 16px;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-    max-width: 520px;
+
+.header p{
+
+    color:var(--muted);
+
+    margin-top:6px;
+
+    font-size:14px;
 }
 
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 18px;
-    border-radius: 12px;
-    background: var(--color-success-bg);
-    border: 1px solid var(--color-success);
-    color: var(--color-success);
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 16px;
-    animation: pulse 2s ease-in-out infinite;
+
+.online{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:10px 16px;
+
+    border-radius:999px;
+
+    color:var(--green);
+
+    border:
+        1px solid
+        rgba(32,211,148,.30);
+
+    background:
+        rgba(32,211,148,.07);
+
+    font-size:12px;
+
+    font-weight:800;
+
+    letter-spacing:.4px;
 }
 
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-success);
-    box-shadow: 0 0 8px var(--color-success);
+
+.online-dot{
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    box-shadow:
+        0 0 14px var(--green);
 }
 
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+
+/* =========================================================
+   KPI GRID
+========================================================= */
+
+.kpis{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:16px;
+
+    margin-bottom:22px;
 }
 
-/* ============================================================
-   GRID & CARDS
-============================================================ */
 
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-    margin-bottom: 40px;
+.kpi{
+
+    padding:21px;
+
+    border-radius:18px;
+
+    border:1px solid var(--border);
+
+    background:
+        rgba(10,17,31,.70);
+
+    backdrop-filter:blur(14px);
+
+    transition:.2s;
 }
 
-.card {
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 16px;
-    padding: 32px;
-    transition: all 0.3s ease;
-    animation: fadeIn 0.6s ease-out forwards;
-    opacity: 0;
+
+.kpi:hover{
+
+    transform:translateY(-2px);
+
+    border-color:
+        rgba(100,135,220,.38);
 }
 
-.card:nth-child(1) { animation-delay: 0.1s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
 
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
+.kpi-label{
+
+    color:#8291ad;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.2px;
 }
 
-.card:hover {
-    background: var(--color-bg-tertiary);
-    border-color: var(--color-border-hover);
-    box-shadow: var(--shadow-md);
+
+.kpi-value{
+
+    font-size:27px;
+
+    font-weight:950;
+
+    margin-top:8px;
 }
 
-.card-header h2 {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--color-text-primary);
+
+.kpi-sub{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:5px;
 }
 
-.card-subtitle {
-    font-size: 14px;
-    color: var(--color-text-secondary);
-    margin-bottom: 28px;
-    line-height: 1.5;
+
+.blue{
+    color:var(--blue);
 }
 
-/* ============================================================
-   UPLOAD BOX
-============================================================ */
-
-.upload-area {
-    position: relative;
+.green{
+    color:var(--green);
 }
 
-.upload-box {
-    border: 2px dashed var(--color-border);
-    border-radius: 14px;
-    padding: 48px 32px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: var(--color-bg-tertiary);
+.red{
+    color:var(--red);
 }
 
-.upload-box:hover {
-    border-color: var(--color-accent);
-    background: var(--color-accent-light);
-    transform: translateY(-2px);
+.yellow{
+    color:var(--yellow);
 }
 
-.upload-box.dragover {
-    border-color: var(--color-accent);
-    background: var(--color-accent-light);
-    box-shadow: inset 0 0 24px rgba(59, 130, 246, 0.1);
+.purple{
+    color:#9a86ff;
 }
 
-.upload-icon {
-    font-size: 56px;
-    margin-bottom: 16px;
-    display: block;
-    animation: bounce 0.6s ease-out;
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.main-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:20px;
 }
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+
+.card{
+
+    background:
+        rgba(10,17,31,.74);
+
+    backdrop-filter:blur(18px);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:22px;
+
+    padding:27px;
+
+    box-shadow:
+        0 15px 55px
+        rgba(0,0,0,.20);
 }
 
-.upload-box strong {
-    display: block;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--color-text-primary);
+
+.card-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    margin-bottom:7px;
 }
 
-.upload-box span {
-    display: block;
-    font-size: 14px;
-    color: var(--color-text-secondary);
+
+.card h2{
+
+    font-size:19px;
 }
 
-#csvFile {
-    display: none;
+
+.card-desc{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    line-height:1.65;
+
+    margin-bottom:20px;
 }
 
-/* ============================================================
-   FILE INFO
-============================================================ */
 
-.file-info {
-    display: none;
-    margin-top: 20px;
-    padding: 16px 20px;
-    border-radius: 12px;
-    background: var(--color-success-light);
-    border: 1px solid var(--color-success);
-    animation: slideUp 0.4s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.file-name {
-    color: var(--color-success);
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 6px;
-}
-
-.file-details {
-    color: var(--color-text-secondary);
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-/* ============================================================
-   STATUS MESSAGES
-============================================================ */
-
-.status {
-    display: none;
-    margin-top: 16px;
-    padding: 14px 16px;
-    border-radius: 12px;
-    font-size: 14px;
-    border-left: 4px solid;
-    animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-16px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.status.success {
-    display: block;
-    background: var(--color-success-light);
-    border-left-color: var(--color-success);
-    color: var(--color-success);
-}
-
-.status.error {
-    display: block;
-    background: var(--color-fraud-light);
-    border-left-color: var(--color-fraud);
-    color: var(--color-fraud);
-}
-
-.status.loading {
-    display: block;
-    background: var(--color-accent-light);
-    border-left-color: var(--color-accent);
-    color: var(--color-accent);
-}
-
-/* ============================================================
+/* =========================================================
    BUTTONS
-============================================================ */
+========================================================= */
 
-.button-group {
-    display: flex;
-    gap: 12px;
-    flex-direction: column;
+.button-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:12px;
 }
 
-button {
-    padding: 14px 24px;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    letter-spacing: 0.3px;
+
+button{
+
+    border:none;
+
+    border-radius:13px;
+
+    padding:15px;
+
+    font-size:14px;
+
+    font-weight:850;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.2s;
 }
 
-button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+
+button:hover{
+
+    transform:translateY(-2px);
 }
 
-button:active::before {
-    width: 300px;
-    height: 300px;
+
+button:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+    transform:none;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--color-accent) 0%, #1e40af 100%);
-    color: white;
-    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
-    width: 100%;
+
+.btn-fraud{
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff5368,
+            #c92e4c
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(255,83,104,.18);
 }
 
-.btn-primary:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+
+.btn-normal{
+
+    background:
+        linear-gradient(
+            135deg,
+            #20d394,
+            #087f5b
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(32,211,148,.14);
 }
 
-.btn-secondary {
-    background: var(--color-bg-tertiary);
-    color: var(--color-accent);
-    border: 1px solid var(--color-accent);
-    width: 100%;
+
+.btn-primary{
+
+    width:100%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--purple)
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(79,124,255,.18);
 }
 
-.btn-secondary:hover:not(:disabled) {
-    background: var(--color-accent-light);
-    transform: translateY(-2px);
+
+.btn-clear{
+
+    width:100%;
+
+    margin-top:11px;
+
+    background:
+        rgba(35,47,72,.85);
+
+    color:#aeb9d0;
+
+    border:
+        1px solid
+        rgba(120,145,190,.15);
 }
 
-button:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-    transform: none !important;
-}
 
-/* ============================================================
-   RESULTS SECTION
-============================================================ */
-
-.results {
-    display: none;
-    animation: fadeIn 0.6s ease-out;
-}
-
-.results.show {
-    display: block;
-}
-
-.results .card {
-    animation: fadeIn 0.6s ease-out;
-}
-
-/* ============================================================
-   STATISTICS GRID
-============================================================ */
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-bottom: 32px;
-}
-
-.stat-card {
-    background: var(--color-bg-tertiary);
-    border: 1px solid var(--color-border);
-    border-radius: 14px;
-    padding: 24px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--stat-color, var(--color-accent));
-}
-
-.stat-card:hover {
-    border-color: var(--stat-color, var(--color-accent));
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-}
-
-.stat-card.fraud { --stat-color: var(--color-fraud); }
-.stat-card.warning { --stat-color: var(--color-warning); }
-.stat-card.success { --stat-color: var(--color-success); }
-
-.stat-label {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--color-text-secondary);
-    margin-bottom: 12px;
-}
-
-.stat-value {
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--stat-color, var(--color-accent));
-    margin-bottom: 8px;
-}
-
-.stat-change {
-    font-size: 12px;
-    color: var(--color-text-secondary);
-}
-
-/* ============================================================
-   TABLE
-============================================================ */
-
-.table-wrapper {
-    margin-top: 32px;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--color-bg-secondary);
-}
-
-thead {
-    background: var(--color-bg-tertiary);
-    border-bottom: 1px solid var(--color-border);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-th {
-    padding: 16px 20px;
-    text-align: left;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--color-text-secondary);
-}
-
-td {
-    padding: 16px 20px;
-    border-top: 1px solid var(--color-border);
-    font-size: 14px;
-    color: var(--color-text-primary);
-}
-
-tbody tr {
-    transition: all 0.3s ease;
-}
-
-tbody tr:hover {
-    background: var(--color-bg-tertiary);
-}
-
-/* ============================================================
-   BADGES
-============================================================ */
-
-.badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-}
-
-.badge-fraud {
-    background: var(--color-fraud-bg);
-    color: var(--color-fraud);
-    border: 1px solid var(--color-fraud);
-}
-
-.badge-warning {
-    background: var(--color-warning-bg);
-    color: var(--color-warning);
-    border: 1px solid var(--color-warning);
-}
-
-.badge-normal {
-    background: var(--color-success-bg);
-    color: var(--color-success);
-    border: 1px solid var(--color-success);
-}
-
-/* ============================================================
+/* =========================================================
    SINGLE RESULT
-============================================================ */
+========================================================= */
 
-.single-result {
-    display: none;
-    margin-top: 24px;
-    padding: 28px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
-    border: 1px solid var(--color-border);
-    animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+.single-result{
+
+    display:none;
+
+    margin-top:20px;
+
+    padding:21px;
+
+    border-radius:18px;
+
+    background:
+        rgba(7,13,25,.78);
+
+    border:
+        1px solid
+        var(--border);
+
+    animation:
+        resultIn .35s ease;
 }
 
-@keyframes popIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
+
+.single-result.show{
+
+    display:block;
+}
+
+
+@keyframes resultIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(8px);
+
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+
     }
+
 }
 
-.single-result.show {
-    display: block;
+
+.result-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
 }
 
-.single-title {
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--color-text-secondary);
-    margin-bottom: 12px;
+
+.result-label{
+
+    color:#7f8da8;
+
+    font-size:10px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+    font-weight:800;
 }
 
-.single-value {
-    font-size: 48px;
-    font-weight: 800;
-    margin-bottom: 20px;
+
+.result-prediction{
+
+    font-size:32px;
+
+    font-weight:950;
+
+    margin-top:5px;
 }
 
-.single-value.fraud { color: var(--color-fraud); }
-.single-value.warning { color: var(--color-warning); }
-.single-value.normal { color: var(--color-success); }
 
-.single-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    color: var(--color-text-secondary);
-    font-size: 14px;
-    line-height: 1.8;
+.probability{
+
+    text-align:right;
 }
 
-.detail-item {
-    padding: 12px;
-    border-radius: 8px;
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
+
+.probability-value{
+
+    font-size:25px;
+
+    font-weight:950;
+
+    margin-top:4px;
 }
 
-.detail-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    color: var(--color-text-secondary);
-    margin-bottom: 6px;
+
+.progress{
+
+    height:9px;
+
+    background:#202b41;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin:18px 0;
 }
 
-.detail-value {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--color-text-primary);
+
+.progress-bar{
+
+    height:100%;
+
+    border-radius:20px;
+
+    transition:
+        width .7s ease;
 }
 
-/* ============================================================
-   INFO BOX
-============================================================ */
 
-.info-box {
-    margin-top: 24px;
-    padding: 16px 20px;
-    border-radius: 12px;
-    background: var(--color-accent-light);
-    border: 1px solid var(--color-accent);
-    color: var(--color-text-secondary);
-    font-size: 14px;
-    line-height: 1.7;
+.result-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:9px;
 }
 
-.info-box b {
-    color: var(--color-text-primary);
+
+.result-item{
+
+    padding:11px;
+
+    background:
+        rgba(15,24,42,.85);
+
+    border:
+        1px solid
+        rgba(120,145,190,.15);
+
+    border-radius:11px;
 }
 
-/* ============================================================
-   PROGRESS INDICATOR
-============================================================ */
 
-.loading-spinner {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 2px solid var(--color-accent);
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-    margin-right: 8px;
-    vertical-align: middle;
+.result-item span{
+
+    display:block;
+
+    color:#71809b;
+
+    font-size:9px;
+
+    text-transform:uppercase;
+
+    margin-bottom:5px;
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
+
+.result-item strong{
+
+    font-size:12px;
 }
 
-/* ============================================================
+
+/* =========================================================
+   UPLOAD AREA
+========================================================= */
+
+.upload-area{
+
+    width:100%;
+}
+
+
+.upload-box{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:100%;
+
+    min-height:190px;
+
+    border:
+        2px dashed
+        rgba(85,105,145,.55);
+
+    border-radius:18px;
+
+    padding:28px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    background:
+        rgba(7,13,25,.55);
+
+    transition:
+
+        border-color .25s ease,
+
+        background .25s ease,
+
+        transform .25s ease,
+
+        box-shadow .25s ease;
+}
+
+
+.upload-box:hover{
+
+    border-color:
+        var(--blue);
+
+    background:
+        rgba(30,50,100,.28);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 35px
+        rgba(79,124,255,.12);
+}
+
+
+.upload-box.dragover{
+
+    border-color:
+        var(--blue);
+
+    background:
+        rgba(79,124,255,.12);
+
+    box-shadow:
+        inset 0 0 30px
+        rgba(79,124,255,.08);
+}
+
+
+.upload-icon{
+
+    font-size:39px;
+
+    margin-bottom:11px;
+}
+
+
+.upload-box strong{
+
+    display:block;
+
+    font-size:15px;
+
+    font-weight:850;
+}
+
+
+.upload-box span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:7px;
+}
+
+
+#csvFile{
+
+    display:none;
+}
+
+
+/* =========================================================
+   FILE INFO
+========================================================= */
+
+.file-info{
+
+    display:none;
+
+    margin-top:13px;
+
+    padding:13px;
+
+    border-radius:12px;
+
+    border:
+        1px solid
+        rgba(32,211,148,.25);
+
+    background:
+        rgba(32,211,148,.06);
+}
+
+
+.file-info.show{
+
+    display:block;
+}
+
+
+.file-name{
+
+    color:var(--green);
+
+    font-size:12px;
+
+    font-weight:850;
+}
+
+
+.file-details{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:5px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+
+    display:none;
+
+    margin-top:12px;
+
+    padding:11px;
+
+    border-radius:10px;
+
+    font-size:11px;
+}
+
+
+.status.show{
+
+    display:block;
+}
+
+
+.status.success{
+
+    color:var(--green);
+
+    background:
+        rgba(32,211,148,.07);
+
+    border:
+        1px solid
+        rgba(32,211,148,.18);
+}
+
+
+.status.error{
+
+    color:var(--red);
+
+    background:
+        rgba(255,83,104,.07);
+
+    border:
+        1px solid
+        rgba(255,83,104,.18);
+}
+
+
+.status.loading{
+
+    color:#86a2ff;
+
+    background:
+        rgba(79,124,255,.07);
+
+    border:
+        1px solid
+        rgba(79,124,255,.18);
+}
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.results{
+
+    display:none;
+
+    margin-top:20px;
+}
+
+
+.results.show{
+
+    display:block;
+}
+
+
+.results-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:20px;
+}
+
+
+.results-header p{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    margin-top:5px;
+}
+
+
+/* =========================================================
+   RESULT STATS
+========================================================= */
+
+.result-stats{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+
+    margin-bottom:20px;
+}
+
+
+.result-stat{
+
+    padding:18px;
+
+    border-radius:15px;
+
+    background:
+        rgba(7,13,25,.72);
+
+    border:
+        1px solid
+        rgba(120,145,190,.16);
+}
+
+
+.result-stat-label{
+
+    color:#7f8da8;
+
+    font-size:9px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.8px;
+
+    font-weight:800;
+}
+
+
+.result-stat-value{
+
+    font-size:25px;
+
+    font-weight:950;
+
+    margin-top:6px;
+}
+
+
+/* =========================================================
+   VISUAL GRID
+========================================================= */
+
+.visual-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:14px;
+
+    margin-bottom:18px;
+}
+
+
+.visual-card{
+
+    padding:19px;
+
+    border-radius:16px;
+
+    background:
+        rgba(7,13,25,.72);
+
+    border:
+        1px solid
+        rgba(120,145,190,.16);
+}
+
+
+.visual-card h3{
+
+    font-size:13px;
+
+    margin-bottom:17px;
+}
+
+
+.bar-row{
+
+    margin-bottom:13px;
+}
+
+
+.bar-label{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-bottom:6px;
+}
+
+
+.bar-track{
+
+    height:8px;
+
+    background:#202b41;
+
+    border-radius:20px;
+
+    overflow:hidden;
+}
+
+
+.bar-fill{
+
+    height:100%;
+
+    border-radius:20px;
+
+    transition:
+        width .6s ease;
+}
+
+
+.bar-red{
+    background:var(--red);
+}
+
+
+.bar-yellow{
+    background:var(--yellow);
+}
+
+
+.bar-green{
+    background:var(--green);
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrap{
+
+    overflow:auto;
+
+    max-height:430px;
+
+    border:
+        1px solid
+        rgba(120,145,190,.16);
+
+    border-radius:15px;
+}
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:780px;
+}
+
+
+th{
+
+    position:sticky;
+
+    top:0;
+
+    background:#111a2d;
+
+    color:#8997b1;
+
+    text-align:left;
+
+    font-size:9px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.7px;
+
+    padding:14px;
+}
+
+
+td{
+
+    padding:13px 14px;
+
+    border-top:
+        1px solid
+        rgba(120,145,190,.10);
+
+    font-size:11px;
+}
+
+
+tr:hover{
+
+    background:
+        rgba(79,124,255,.04);
+}
+
+
+.badge{
+
+    display:inline-block;
+
+    padding:5px 9px;
+
+    border-radius:7px;
+
+    font-size:9px;
+
+    font-weight:900;
+}
+
+
+.badge-fraud{
+
+    color:var(--red);
+
+    background:
+        rgba(255,83,104,.10);
+
+    border:
+        1px solid
+        rgba(255,83,104,.28);
+}
+
+
+.badge-suspicious{
+
+    color:var(--yellow);
+
+    background:
+        rgba(255,200,87,.10);
+
+    border:
+        1px solid
+        rgba(255,200,87,.28);
+}
+
+
+.badge-normal{
+
+    color:var(--green);
+
+    background:
+        rgba(32,211,148,.10);
+
+    border:
+        1px solid
+        rgba(32,211,148,.28);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+
+    text-align:center;
+
+    color:#66738c;
+
+    font-size:10px;
+
+    margin-top:22px;
+}
+
+
+/* =========================================================
    RESPONSIVE
-============================================================ */
+========================================================= */
 
-@media (max-width: 1024px) {
-    .grid {
-        grid-template-columns: 1fr;
+@media(max-width:950px){
+
+    .main-grid{
+
+        grid-template-columns:1fr;
+
     }
 
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .kpis{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
     }
 
-    .single-details {
-        grid-template-columns: 1fr;
-    }
 }
 
-@media (max-width: 768px) {
-    body {
-        padding: 24px 16px;
+
+@media(max-width:650px){
+
+    .container{
+
+        width:94%;
+
     }
 
-    .header-content {
-        flex-direction: column;
-        gap: 20px;
+    .header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
     }
 
-    .header-text h1 {
-        font-size: 32px;
+    .kpis{
+
+        grid-template-columns:1fr;
+
     }
 
-    .card {
-        padding: 24px;
+    .button-grid{
+
+        grid-template-columns:1fr;
+
     }
 
-    .stats-grid {
-        grid-template-columns: 1fr;
+    .result-stats{
+
+        grid-template-columns:
+            1fr 1fr;
+
     }
 
-    .single-value {
-        font-size: 36px;
+    .visual-grid{
+
+        grid-template-columns:1fr;
+
     }
 
-    table {
-        font-size: 13px;
+    .result-grid{
+
+        grid-template-columns:1fr;
+
     }
 
-    td, th {
-        padding: 12px;
-    }
 }
 
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-    <!-- HEADER -->
-    <div class="header">
-        <div class="header-content">
-            <div class="header-text">
-                <h1>Fraud Detection System</h1>
-                <p>Advanced XGBoost-powered real-time transaction analysis with machine learning model integration and Kafka streaming pipeline.</p>
-                <div class="status-badge">
-                    <span class="status-dot"></span>
-                    System Online
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- MAIN GRID -->
-    <div class="grid">
+<!-- ======================================================
+     HEADER
+====================================================== -->
 
-        <!-- SINGLE TRANSACTION -->
-        <div class="card">
-            <div class="card-header">
-                <h2>Single Transaction Test</h2>
-            </div>
-            <p class="card-subtitle">Analyze individual transactions with the trained XGBoost model.</p>
+<header class="header">
 
-            <div class="button-group">
-                <button class="btn-primary" id="fraudBtn" disabled>
-                    🔥 Test Fraud Transaction
-                </button>
-                <button class="btn-secondary" id="normalBtn" disabled>
-                    ✓ Test Normal Transaction
-                </button>
-            </div>
+    <div class="brand">
 
-            <div class="single-result" id="singleResult"></div>
-
-            <div class="info-box">
-                Upload your CSV first. Then select a transaction type to test predictions.
-            </div>
+        <div class="logo">
+            🛡️
         </div>
 
-        <!-- DATASET UPLOAD -->
-        <div class="card">
-            <div class="card-header">
-                <h2>Upload Dataset</h2>
-            </div>
-            <p class="card-subtitle">Import your credit card transaction CSV for analysis.</p>
+        <div>
 
-            <div class="upload-area">
-                <label class="upload-box" for="csvFile">
-                    <span class="upload-icon">📊</span>
-                    <strong>Click to upload CSV</strong>
-                    <span>or drag and drop here</span>
-                </label>
-                <input type="file" id="csvFile" accept=".csv">
-            </div>
+            <h1>
+                Fraud Detection System
+            </h1>
 
-            <div class="file-info" id="fileInfo">
-                <div class="file-name" id="fileName"></div>
-                <div class="file-details" id="fileDetails"></div>
-            </div>
+            <p>
+                Real-time AI-powered financial transaction monitoring
+            </p>
 
-            <div class="status" id="uploadStatus"></div>
-
-            <button class="btn-primary" id="analyzeBtn" disabled style="margin-top: 20px;">
-                🔍 Analyze Dataset
-            </button>
         </div>
 
     </div>
 
-    <!-- RESULTS SECTION -->
-    <div class="results" id="results">
-        <div class="card">
-            <div class="card-header">
-                <h2>Detection Results</h2>
+
+    <div class="online">
+
+        <span class="online-dot"></span>
+
+        SYSTEM ONLINE
+
+    </div>
+
+</header>
+
+
+<!-- ======================================================
+     KPI CARDS
+====================================================== -->
+
+<section class="kpis">
+
+
+    <div class="kpi">
+
+        <div class="kpi-label">
+            Model
+        </div>
+
+        <div class="kpi-value blue">
+            XGBoost
+        </div>
+
+        <div class="kpi-sub">
+            Supervised fraud classifier
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-label">
+            Decision Threshold
+        </div>
+
+        <div class="kpi-value purple">
+            0.80
+        </div>
+
+        <div class="kpi-sub">
+            Optimized fraud threshold
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-label">
+            ROC-AUC
+        </div>
+
+        <div class="kpi-value green">
+            98.1%
+        </div>
+
+        <div class="kpi-sub">
+            Held-out test evaluation
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-label">
+            Streaming
+        </div>
+
+        <div class="kpi-value green">
+            Kafka
+        </div>
+
+        <div class="kpi-sub">
+            Real-time transaction pipeline
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- ======================================================
+     MAIN GRID
+====================================================== -->
+
+<section class="main-grid">
+
+
+<!-- ======================================================
+     LIVE TRANSACTION
+====================================================== -->
+
+<div class="card">
+
+    <div class="card-title">
+
+        <h2>
+            ⚡ Live Transaction Test
+        </h2>
+
+    </div>
+
+
+    <p class="card-desc">
+
+        Test a transaction directly against the trained
+        XGBoost model. The prediction is also published
+        to Kafka for real-time processing.
+
+    </p>
+
+
+    <div class="button-grid">
+
+
+        <button
+            class="btn-fraud"
+            id="fraudBtn"
+        >
+
+            🔥 Test Fraud Pattern
+
+        </button>
+
+
+        <button
+            class="btn-normal"
+            id="normalBtn"
+        >
+
+            ✓ Test Normal Pattern
+
+        </button>
+
+
+    </div>
+
+
+    <div
+        class="single-result"
+        id="singleResult"
+    ></div>
+
+
+    <button
+        class="btn-clear"
+        id="clearBtn"
+    >
+
+        Clear Result
+
+    </button>
+
+</div>
+
+
+<!-- ======================================================
+     DATASET
+====================================================== -->
+
+<div class="card">
+
+
+    <div class="card-title">
+
+        <h2>
+            📊 Dataset Analysis
+        </h2>
+
+    </div>
+
+
+    <p class="card-desc">
+
+        Upload a CSV containing the 30 model features:
+        <b>Time, V1–V28 and Amount</b>.
+
+        A <b>Class</b> column is optional.
+
+    </p>
+
+
+    <div class="upload-area">
+
+        <label
+            class="upload-box"
+            for="csvFile"
+        >
+
+            <div class="upload-icon">
+                📁
             </div>
-            <p class="card-subtitle" id="resultSubtitle">Model analysis results</p>
 
-            <!-- STATISTICS -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Total Transactions</div>
-                    <div class="stat-value" id="totalCount">0</div>
-                    <div class="stat-change">Processed</div>
+
+            <strong>
+                Click to upload CSV
+            </strong>
+
+
+            <span>
+                or drag and drop your transaction dataset
+            </span>
+
+        </label>
+
+
+        <input
+            type="file"
+            id="csvFile"
+            accept=".csv"
+        >
+
+    </div>
+
+
+    <div
+        class="file-info"
+        id="fileInfo"
+    >
+
+        <div
+            class="file-name"
+            id="fileName"
+        ></div>
+
+
+        <div
+            class="file-details"
+            id="fileDetails"
+        ></div>
+
+    </div>
+
+
+    <button
+        class="btn-primary"
+        id="analyzeBtn"
+        disabled
+        style="margin-top:14px;"
+    >
+
+        🔎 ANALYZE DATASET
+
+    </button>
+
+
+    <div
+        class="status"
+        id="uploadStatus"
+    ></div>
+
+
+</div>
+
+
+</section>
+
+
+<!-- ======================================================
+     RESULTS
+====================================================== -->
+
+<section
+    class="results"
+    id="results"
+>
+
+
+<div class="card">
+
+
+    <div class="results-header">
+
+        <div>
+
+            <h2>
+                Detection Analytics
+            </h2>
+
+            <p id="resultSummary">
+                XGBoost prediction results
+            </p>
+
+        </div>
+
+
+        <div class="online">
+
+            AI ANALYSIS
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         RESULT STATS
+    ================================================== -->
+
+    <div class="result-stats">
+
+
+        <div class="result-stat">
+
+            <div class="result-stat-label">
+                Transactions
+            </div>
+
+            <div
+                class="result-stat-value blue"
+                id="totalCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="result-stat">
+
+            <div class="result-stat-label">
+                Fraud
+            </div>
+
+            <div
+                class="result-stat-value red"
+                id="fraudCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="result-stat">
+
+            <div class="result-stat-label">
+                Suspicious
+            </div>
+
+            <div
+                class="result-stat-value yellow"
+                id="suspiciousCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="result-stat">
+
+            <div class="result-stat-label">
+                Normal
+            </div>
+
+            <div
+                class="result-stat-value green"
+                id="normalCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==================================================
+         VISUALIZATION
+    ================================================== -->
+
+    <div class="visual-grid">
+
+
+        <div class="visual-card">
+
+            <h3>
+                Risk Distribution
+            </h3>
+
+
+            <div class="bar-row">
+
+                <div class="bar-label">
+
+                    <span>
+                        High Risk / Fraud
+                    </span>
+
+                    <span id="fraudPercent">
+                        0%
+                    </span>
+
                 </div>
 
-                <div class="stat-card fraud">
-                    <div class="stat-label">Fraud Detected</div>
-                    <div class="stat-value" id="fraudCount">0</div>
-                    <div class="stat-change" style="color: var(--color-fraud);">High Risk</div>
+
+                <div class="bar-track">
+
+                    <div
+                        class="bar-fill bar-red"
+                        id="fraudBar"
+                    ></div>
+
                 </div>
 
-                <div class="stat-card warning">
-                    <div class="stat-label">Suspicious</div>
-                    <div class="stat-value" id="suspiciousCount">0</div>
-                    <div class="stat-change" style="color: var(--color-warning);">Medium Risk</div>
+            </div>
+
+
+            <div class="bar-row">
+
+                <div class="bar-label">
+
+                    <span>
+                        Medium Risk
+                    </span>
+
+                    <span id="suspiciousPercent">
+                        0%
+                    </span>
+
                 </div>
 
-                <div class="stat-card success">
-                    <div class="stat-label">Normal</div>
-                    <div class="stat-value" id="normalCount">0</div>
-                    <div class="stat-change" style="color: var(--color-success);">Approved</div>
+
+                <div class="bar-track">
+
+                    <div
+                        class="bar-fill bar-yellow"
+                        id="suspiciousBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="bar-row">
+
+                <div class="bar-label">
+
+                    <span>
+                        Low Risk / Normal
+                    </span>
+
+                    <span id="normalPercent">
+                        0%
+                    </span>
+
+                </div>
+
+
+                <div class="bar-track">
+
+                    <div
+                        class="bar-fill bar-green"
+                        id="normalBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="visual-card">
+
+            <h3>
+                Pipeline Status
+            </h3>
+
+
+            <div class="bar-row">
+
+                <div class="bar-label">
+
+                    <span>
+                        FastAPI
+                    </span>
+
+                    <span class="green">
+                        ONLINE
+                    </span>
+
+                </div>
+
+
+                <div class="bar-track">
+
+                    <div
+                        class="bar-fill bar-green"
+                        style="width:100%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="bar-row">
+
+                <div class="bar-label">
+
+                    <span>
+                        XGBoost
+                    </span>
+
+                    <span class="green">
+                        READY
+                    </span>
+
+                </div>
+
+
+                <div class="bar-track">
+
+                    <div
+                        class="bar-fill bar-green"
+                        style="width:100%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="bar-row">
+
+                <div class="bar-label">
+
+                    <span>
+                        Kafka
+                    </span>
+
+                    <span class="green">
+                        STREAMING
+                    </span>
+
+                </div>
+
+
+                <div class="bar-track">
+
+                    <div
+                        class="bar-fill bar-green"
+                        style="width:100%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==================================================
+         TABLE
+    ================================================== -->
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th>
+                        Fraud Probability
+                    </th>
+
+                    <th>
+                        Prediction
+                    </th>
+
+                    <th>
+                        Risk
+                    </th>
+
+                    <th>
+                        Actual Class
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody
+                id="resultsBody"
+            ></tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+<div class="footer">
+
+    Real-Time Fraud Detection
+    • XGBoost
+    • Kafka
+    • FastAPI
+    • MLflow
+    • Docker
+
+</div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   MODEL FEATURES
+========================================================= */
+
+const FEATURES = [
+
+    "Time",
+
+    "V1",
+    "V2",
+    "V3",
+    "V4",
+    "V5",
+    "V6",
+    "V7",
+    "V8",
+    "V9",
+    "V10",
+
+    "V11",
+    "V12",
+    "V13",
+    "V14",
+    "V15",
+    "V16",
+    "V17",
+    "V18",
+    "V19",
+    "V20",
+
+    "V21",
+    "V22",
+    "V23",
+    "V24",
+    "V25",
+    "V26",
+    "V27",
+    "V28",
+
+    "Amount"
+
+];
+
+
+/* =========================================================
+   ACTUAL FRAUD SAMPLE
+   From fraud_test_upload.csv
+========================================================= */
+
+const FRAUD_TRANSACTION = {
+
+    Time:40000,
+
+    V1:-2.5,
+    V2:2.2,
+    V3:-3.1,
+    V4:4.0,
+    V5:-2.0,
+    V6:-1.5,
+    V7:-3.0,
+    V8:1.5,
+    V9:-2.8,
+    V10:-4.0,
+
+    V11:3.5,
+    V12:-5.0,
+    V13:0.2,
+    V14:-6.0,
+    V15:0.1,
+    V16:-4.5,
+    V17:-2.0,
+    V18:1.5,
+    V19:-0.5,
+    V20:-0.2,
+
+    V21:0.3,
+    V22:-0.1,
+    V23:0.2,
+    V24:-0.3,
+    V25:0.1,
+    V26:0.05,
+    V27:0.2,
+    V28:-0.1,
+
+    Amount:0
+
+};
+
+
+/* =========================================================
+   NORMAL SAMPLE
+========================================================= */
+
+const NORMAL_TRANSACTION = {
+
+    Time:10000,
+
+    V1:1.2,
+    V2:0.5,
+    V3:0.8,
+    V4:0.2,
+    V5:0.6,
+    V6:0.1,
+    V7:0.4,
+    V8:0.2,
+    V9:0.5,
+    V10:0.3,
+
+    V11:0.7,
+    V12:0.2,
+    V13:0.1,
+    V14:0.4,
+    V15:0.3,
+    V16:0.2,
+    V17:0.5,
+    V18:0.1,
+    V19:0.2,
+    V20:0.1,
+
+    V21:0.05,
+    V22:0.1,
+    V23:0.05,
+    V24:0.2,
+    V25:0.1,
+    V26:0.05,
+    V27:0.02,
+    V28:0.01,
+
+    Amount:50
+
+};
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const csvFile =
+    document.getElementById("csvFile");
+
+const uploadBox =
+    document.querySelector(".upload-box");
+
+const fileInfo =
+    document.getElementById("fileInfo");
+
+const fileName =
+    document.getElementById("fileName");
+
+const fileDetails =
+    document.getElementById("fileDetails");
+
+const uploadStatus =
+    document.getElementById("uploadStatus");
+
+const analyzeBtn =
+    document.getElementById("analyzeBtn");
+
+const fraudBtn =
+    document.getElementById("fraudBtn");
+
+const normalBtn =
+    document.getElementById("normalBtn");
+
+const clearBtn =
+    document.getElementById("clearBtn");
+
+const results =
+    document.getElementById("results");
+
+const resultsBody =
+    document.getElementById("resultsBody");
+
+const singleResult =
+    document.getElementById("singleResult");
+
+
+let uploadedRows = [];
+
+let uploadedFileName = "";
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function showStatus(
+    message,
+    type
+){
+
+    uploadStatus.textContent =
+        message;
+
+    uploadStatus.className =
+        "status show " + type;
+
+}
+
+
+/* =========================================================
+   CREATE TRANSACTION
+========================================================= */
+
+function createTransaction(row){
+
+    const transaction = {};
+
+    FEATURES.forEach(feature => {
+
+        const value =
+            Number(row[feature]);
+
+        if(!Number.isFinite(value)){
+
+            throw new Error(
+                `Invalid value in ${feature}`
+            );
+
+        }
+
+        transaction[feature] =
+            value;
+
+    });
+
+    return transaction;
+
+}
+
+
+/* =========================================================
+   SINGLE PREDICTION
+========================================================= */
+
+async function predictSingle(
+    transaction,
+    title
+){
+
+    singleResult.classList.add("show");
+
+
+    singleResult.innerHTML = `
+
+        <div style="
+            text-align:center;
+            color:var(--muted);
+            padding:10px;
+        ">
+
+            ⏳ Running XGBoost prediction...
+
+        </div>
+
+    `;
+
+
+    try{
+
+        const response =
+            await fetch(
+                "/predict",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                        "application/json"
+                    },
+
+                    body:
+                    JSON.stringify(transaction)
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.detail ||
+                "Prediction failed"
+            );
+
+        }
+
+
+        const probability =
+            Number(
+                data.fraud_probability
+            ) * 100;
+
+
+        let color =
+            "var(--green)";
+
+
+        if(
+            data.prediction ===
+            "FRAUD"
+        ){
+
+            color =
+                "var(--red)";
+
+        }
+
+        else if(
+            data.prediction ===
+            "SUSPICIOUS"
+        ){
+
+            color =
+                "var(--yellow)";
+
+        }
+
+
+        singleResult.innerHTML = `
+
+            <div class="result-top">
+
+
+                <div>
+
+                    <div class="result-label">
+                        ${title}
+                    </div>
+
+                    <div
+                        class="result-prediction"
+                        style="color:${color}"
+                    >
+                        ${data.prediction}
+                    </div>
+
+                </div>
+
+
+                <div class="probability">
+
+                    <div class="result-label">
+                        FRAUD PROBABILITY
+                    </div>
+
+                    <div
+                        class="probability-value"
+                        style="color:${color}"
+                    >
+                        ${probability.toFixed(2)}%
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    style="
+                        width:${Math.min(
+                            probability,
+                            100
+                        )}%;
+
+                        background:${color};
+                    "
+                ></div>
+
+            </div>
+
+
+            <div class="result-grid">
+
+
+                <div class="result-item">
+
+                    <span>
+                        Risk Level
+                    </span>
+
+                    <strong>
+                        ${data.risk_level}
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>
+                        Threshold
+                    </span>
+
+                    <strong>
+                        ${data.threshold}
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>
+                        Kafka
+                    </span>
+
+                    <strong
+                        style="color:var(--green)"
+                    >
+                        ${data.kafka_status}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+        showSingleAnalytics(
+            data,
+            transaction
+        );
+
+
+    }
+
+    catch(error){
+
+        singleResult.innerHTML = `
+
+            <div style="
+                color:var(--red);
+                font-weight:800;
+            ">
+
+                ❌ Prediction failed
+
+            </div>
+
+
+            <div style="
+                color:var(--muted);
+                margin-top:7px;
+                font-size:11px;
+            ">
+
+                ${error.message}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   SINGLE ANALYTICS
+========================================================= */
+
+function showSingleAnalytics(
+    data,
+    transaction
+){
+
+    results.classList.add("show");
+
+
+    const prediction =
+        data.prediction;
+
+
+    const fraud =
+        prediction === "FRAUD"
+        ? 1
+        : 0;
+
+
+    const suspicious =
+        prediction === "SUSPICIOUS"
+        ? 1
+        : 0;
+
+
+    const normal =
+        prediction === "NORMAL"
+        ? 1
+        : 0;
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent = "1";
+
+
+    document.getElementById(
+        "fraudCount"
+    ).textContent = fraud;
+
+
+    document.getElementById(
+        "suspiciousCount"
+    ).textContent = suspicious;
+
+
+    document.getElementById(
+        "normalCount"
+    ).textContent = normal;
+
+
+    updateBars(
+        fraud,
+        suspicious,
+        normal
+    );
+
+
+    document.getElementById(
+        "resultSummary"
+    ).textContent =
+        "Live transaction prediction from XGBoost";
+
+
+    resultsBody.innerHTML = `
+
+        <tr>
+
+            <td>
+                1
+            </td>
+
+            <td>
+                ₹${Number(
+                    transaction.Amount
+                ).toFixed(2)}
+            </td>
+
+            <td>
+                <b>
+                    ${(Number(
+                        data.fraud_probability
+                    ) * 100).toFixed(2)}%
+                </b>
+            </td>
+
+            <td>
+
+                <span
+                    class="badge ${
+                        prediction === "FRAUD"
+                        ? "badge-fraud"
+                        : prediction === "SUSPICIOUS"
+                        ? "badge-suspicious"
+                        : "badge-normal"
+                    }"
+                >
+
+                    ${prediction}
+
+                </span>
+
+            </td>
+
+            <td>
+                ${data.risk_level}
+            </td>
+
+            <td>
+                Demo Transaction
+            </td>
+
+        </tr>
+
+    `;
+
+
+    results.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+
+}
+
+
+/* =========================================================
+   BARS
+========================================================= */
+
+function updateBars(
+    fraud,
+    suspicious,
+    normal
+){
+
+    const total =
+        fraud +
+        suspicious +
+        normal;
+
+
+    if(total === 0)
+        return;
+
+
+    const f =
+        fraud / total * 100;
+
+
+    const s =
+        suspicious / total * 100;
+
+
+    const n =
+        normal / total * 100;
+
+
+    document.getElementById(
+        "fraudBar"
+    ).style.width =
+        f + "%";
+
+
+    document.getElementById(
+        "suspiciousBar"
+    ).style.width =
+        s + "%";
+
+
+    document.getElementById(
+        "normalBar"
+    ).style.width =
+        n + "%";
+
+
+    document.getElementById(
+        "fraudPercent"
+    ).textContent =
+        f.toFixed(0) + "%";
+
+
+    document.getElementById(
+        "suspiciousPercent"
+    ).textContent =
+        s.toFixed(0) + "%";
+
+
+    document.getElementById(
+        "normalPercent"
+    ).textContent =
+        n.toFixed(0) + "%";
+
+}
+
+
+/* =========================================================
+   FRAUD BUTTON
+========================================================= */
+
+/* =========================================================
+   PATTERN TESTS — USE ALL ROWS FROM THE UPLOADED DATASET
+========================================================= */
+
+async function testPatternRows(classValue, title){
+
+    if(!uploadedRows || uploadedRows.length === 0){
+
+        singleResult.classList.add("show");
+        singleResult.innerHTML = `
+            <div style="color:var(--yellow);font-weight:800;">
+                ⚠️ Upload a dataset first
+            </div>
+            <div style="color:var(--muted);margin-top:8px;font-size:12px;">
+                ${title} uses all matching transactions from the uploaded CSV.
+            </div>
+        `;
+        return;
+    }
+
+    const rows = uploadedRows.filter(
+        row => Number(row.Class) === classValue
+    );
+
+    if(rows.length === 0){
+        singleResult.classList.add("show");
+        singleResult.innerHTML = `
+            <div style="color:var(--yellow);font-weight:800;">
+                ⚠️ No ${classValue === 1 ? "fraud" : "normal"} transactions found
+            </div>
+            <div style="color:var(--muted);margin-top:8px;font-size:12px;">
+                The uploaded CSV must contain a Class column with ${classValue} values.
+            </div>
+        `;
+        return;
+    }
+
+    singleResult.classList.add("show");
+    singleResult.innerHTML = `
+        <div style="text-align:center;color:var(--muted);padding:12px;">
+            ⏳ Testing ${rows.length.toLocaleString()} ${classValue === 1 ? "fraud" : "normal"} transactions with XGBoost...
+        </div>
+    `;
+
+    try{
+
+        const response = await fetch("/predict_batch", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({transactions:rows})
+        });
+
+        const data = await response.json();
+
+        if(!response.ok){
+            throw new Error(
+                typeof data.detail === "string"
+                ? data.detail
+                : JSON.stringify(data.detail || data)
+            );
+        }
+
+        const predictions =
+            data.predictions ||
+            data.results ||
+            [];
+
+        const resultRows = predictions.map((item,index) => {
+            const prediction = String(item.prediction || "UNKNOWN");
+            const probability = Number(item.fraud_probability || 0) * 100;
+            const risk = item.risk_level || "—";
+
+            const badge =
+                prediction === "FRAUD"
+                ? "badge-fraud"
+                : prediction === "SUSPICIOUS"
+                ? "badge-suspicious"
+                : "badge-normal";
+
+            return `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>₹${Number(rows[index].Amount).toFixed(2)}</td>
+                    <td>${probability.toFixed(2)}%</td>
+                    <td><span class="badge ${badge}">${prediction}</span></td>
+                    <td>${risk}</td>
+                    <td>${rows[index].Time}</td>
+                </tr>
+            `;
+        }).join("");
+
+        const fraudPredicted = predictions.filter(
+            item => item.prediction === "FRAUD"
+        ).length;
+
+        const suspiciousPredicted = predictions.filter(
+            item => item.prediction === "SUSPICIOUS"
+        ).length;
+
+        const normalPredicted = predictions.filter(
+            item => item.prediction === "NORMAL"
+        ).length;
+
+        singleResult.innerHTML = `
+            <div class="result-top">
+                <div>
+                    <div class="result-label">${title}</div>
+                    <div class="result-prediction" style="color:${classValue === 1 ? "var(--red)" : "var(--green)"}">
+                        ${rows.length.toLocaleString()} TRANSACTIONS
+                    </div>
+                </div>
+                <div class="probability">
+                    <div class="result-label">MODEL RESULTS</div>
+                    <div class="probability-value">
+                        ${fraudPredicted} FRAUD
+                    </div>
                 </div>
             </div>
 
-            <!-- TABLE -->
-            <div class="table-wrapper">
-                <table>
+            <div class="result-grid" style="margin-top:16px;">
+                <div class="result-item"><span>Input Rows</span><strong>${rows.length}</strong></div>
+                <div class="result-item"><span>Model FRAUD</span><strong style="color:var(--red)">${fraudPredicted}</strong></div>
+                <div class="result-item"><span>Model SUSPICIOUS</span><strong style="color:var(--yellow)">${suspiciousPredicted}</strong></div>
+                <div class="result-item"><span>Model NORMAL</span><strong style="color:var(--green)">${normalPredicted}</strong></div>
+                <div class="result-item"><span>Dataset Class</span><strong>${classValue}</strong></div>
+                <div class="result-item"><span>Source</span><strong>${uploadedFileName || "Uploaded CSV"}</strong></div>
+            </div>
+
+            <div style="margin-top:18px;max-height:420px;overflow:auto;border:1px solid var(--border);border-radius:12px;">
+                <table style="width:100%;border-collapse:collapse;font-size:11px;">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Amount</th>
                             <th>Fraud Probability</th>
                             <th>Prediction</th>
-                            <th>Risk Level</th>
-                            <th>Actual Class</th>
+                            <th>Risk</th>
+                            <th>Time</th>
                         </tr>
                     </thead>
-                    <tbody id="resultsBody"></tbody>
+                    <tbody>${resultRows}</tbody>
                 </table>
             </div>
-
-            <div class="info-box">
-                <b>How it works:</b> Transactions are sent to the XGBoost model via FastAPI, classified as Fraud, Suspicious, or Normal, and streamed through Kafka for real-time processing.
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<script>
-
-/* ============================================================
-   FEATURES
-============================================================ */
-
-const FEATURES = [
-    "Time",
-    "V1", "V2", "V3", "V4", "V5",
-    "V6", "V7", "V8", "V9", "V10",
-    "V11", "V12", "V13", "V14", "V15",
-    "V16", "V17", "V18", "V19", "V20",
-    "V21", "V22", "V23", "V24", "V25",
-    "V26", "V27", "V28",
-    "Amount"
-];
-
-/* ============================================================
-   DOM ELEMENTS
-============================================================ */
-
-const csvFile = document.getElementById("csvFile");
-const uploadBox = document.querySelector(".upload-box");
-const fileInfo = document.getElementById("fileInfo");
-const fileName = document.getElementById("fileName");
-const fileDetails = document.getElementById("fileDetails");
-const uploadStatus = document.getElementById("uploadStatus");
-const analyzeBtn = document.getElementById("analyzeBtn");
-const fraudBtn = document.getElementById("fraudBtn");
-const normalBtn = document.getElementById("normalBtn");
-const results = document.getElementById("results");
-const resultsBody = document.getElementById("resultsBody");
-const singleResult = document.getElementById("singleResult");
-
-/* ============================================================
-   STATE
-============================================================ */
-
-let uploadedRows = [];
-let uploadedFileName = "";
-let hasClassColumn = false;
-
-/* ============================================================
-   CSV PARSER
-============================================================ */
-
-function parseCSV(text) {
-    const lines = text.trim().split(/\r?\n/);
-
-    if (lines.length < 2) {
-        throw new Error("CSV file contains no data.");
-    }
-
-    const headers = lines[0]
-        .split(",")
-        .map(h => h.trim().replace(/^"|"$/g, ""));
-
-    const rows = [];
-
-    for (let i = 1; i < lines.length; i++) {
-        if (!lines[i].trim()) continue;
-
-        const values = lines[i].split(",");
-        const row = {};
-
-        headers.forEach((header, index) => {
-            let value = values[index] || "";
-            value = value.trim().replace(/^"|"$/g, "");
-            row[header] = value;
-        });
-
-        rows.push(row);
-    }
-
-    return { headers, rows };
-}
-
-/* ============================================================
-   DRAG AND DROP
-============================================================ */
-
-uploadBox.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    uploadBox.classList.add("dragover");
-});
-
-uploadBox.addEventListener("dragleave", () => {
-    uploadBox.classList.remove("dragover");
-});
-
-uploadBox.addEventListener("drop", (e) => {
-    e.preventDefault();
-    uploadBox.classList.remove("dragover");
-
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-        csvFile.files = files;
-        csvFile.dispatchEvent(new Event("change"));
-    }
-});
-
-/* ============================================================
-   FILE UPLOAD
-============================================================ */
-
-csvFile.addEventListener("change", async function(event) {
-    const file = event.target.files[0];
-
-    if (!file) return;
-
-    try {
-        uploadedFileName = file.name;
-        const text = await file.text();
-        const parsed = parseCSV(text);
-
-        uploadedRows = parsed.rows;
-        hasClassColumn = parsed.headers.includes("Class");
-
-        const missingFeatures = FEATURES.filter(
-            feature => !parsed.headers.includes(feature)
-        );
-
-        if (missingFeatures.length > 0) {
-            uploadedRows = [];
-            throw new Error("Missing columns: " + missingFeatures.join(", "));
-        }
-
-        if (uploadedRows.length > 5000) {
-            uploadedRows = uploadedRows.slice(0, 5000);
-        }
-
-        fileInfo.style.display = "block";
-        fileName.textContent = "✓ " + uploadedFileName;
-
-        let details = uploadedRows.length.toLocaleString() + " transactions";
-        if (parsed.rows.length > 5000) {
-            details += " (first 5,000 used)";
-        }
-        details += " • 30 features";
-        if (hasClassColumn) {
-            details += " • Class column detected";
-        }
-
-        fileDetails.textContent = details;
-
-        analyzeBtn.disabled = false;
-        fraudBtn.disabled = false;
-        normalBtn.disabled = false;
-
-        showStatus("Dataset ready. Click Analyze to process.", "success");
-
-    } catch(error) {
-        uploadedRows = [];
-        analyzeBtn.disabled = true;
-        fraudBtn.disabled = true;
-        normalBtn.disabled = true;
-        fileInfo.style.display = "none";
-        showStatus("Error: " + error.message, "error");
-    }
-});
-
-/* ============================================================
-   STATUS
-============================================================ */
-
-function showStatus(message, type) {
-    uploadStatus.textContent = message;
-    uploadStatus.className = "status " + type;
-}
-
-/* ============================================================
-   CREATE TRANSACTION
-============================================================ */
-
-function createTransaction(row) {
-    const transaction = {};
-
-    FEATURES.forEach(feature => {
-        const value = Number(row[feature]);
-        if (!Number.isFinite(value)) {
-            throw new Error(`Invalid value in ${feature}`);
-        }
-        transaction[feature] = value;
-    });
-
-    return transaction;
-}
-
-/* ============================================================
-   ANALYZE DATASET
-============================================================ */
-
-analyzeBtn.addEventListener("click", async function() {
-    if (uploadedRows.length === 0) {
-        showStatus("Please upload a CSV first.", "error");
-        return;
-    }
-
-    analyzeBtn.disabled = true;
-    showStatus("🔄 Analyzing with XGBoost model...", "loading");
-
-    try {
-        const transactions = uploadedRows.map(createTransaction);
-
-        const response = await fetch("/predict_batch", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ transactions })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.detail ? JSON.stringify(data.detail) : "Prediction failed");
-        }
-
-        showResults(data, uploadedRows);
-        showStatus("✓ Analysis complete. " + data.total_transactions.toLocaleString() + " transactions processed.", "success");
-
-    } catch(error) {
-        showStatus("Analysis failed: " + error.message, "error");
-    } finally {
-        analyzeBtn.disabled = false;
-    }
-});
-
-/* ============================================================
-   SHOW RESULTS
-============================================================ */
-
-function showResults(data, originalRows) {
-    results.classList.add("show");
-
-    document.getElementById("totalCount").textContent =
-        data.total_transactions.toLocaleString();
-    document.getElementById("fraudCount").textContent =
-        data.fraud_count.toLocaleString();
-    document.getElementById("suspiciousCount").textContent =
-        data.suspicious_count.toLocaleString();
-    document.getElementById("normalCount").textContent =
-        data.normal_count.toLocaleString();
-
-    document.getElementById("resultSubtitle").textContent =
-        uploadedFileName + " • " + data.total_transactions.toLocaleString() + " transactions analyzed";
-
-    resultsBody.innerHTML = "";
-
-    data.results.forEach((item, index) => {
-        const row = document.createElement("tr");
-        const original = originalRows[index];
-
-        let badgeClass = "badge-normal";
-        if (item.prediction === "FRAUD") badgeClass = "badge-fraud";
-        else if (item.prediction === "SUSPICIOUS") badgeClass = "badge-warning";
-
-        const probability = (item.fraud_probability * 100).toFixed(2);
-
-        let actualClass = "—";
-        if (original && original.Class !== undefined && original.Class !== "") {
-            actualClass = Number(original.Class) === 1 ? "🔴 Fraud" : "🟢 Normal";
-        }
-
-        row.innerHTML = `
-            <td>${item.transaction}</td>
-            <td>₹${Number(item.amount).toFixed(2)}</td>
-            <td><b>${probability}%</b></td>
-            <td><span class="badge ${badgeClass}">${item.prediction}</span></td>
-            <td>${item.risk_level}</td>
-            <td>${actualClass}</td>
         `;
 
-        resultsBody.appendChild(row);
-    });
+        singleResult.scrollIntoView({behavior:"smooth",block:"nearest"});
 
-    results.scrollIntoView({ behavior: "smooth" });
-}
-
-/* ============================================================
-   TEST SINGLE TRANSACTION
-============================================================ */
-
-async function testSingle(row, title) {
-    try {
-        const transaction = createTransaction(row);
-        singleResult.classList.add("show");
-        singleResult.innerHTML = '<div style="text-align: center;"><span class="loading-spinner"></span>Processing...</div>';
-
-        const response = await fetch("/predict", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(transaction)
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.detail ? JSON.stringify(data.detail) : "Prediction failed");
-        }
-
-        let valueClass = "normal";
-        if (data.prediction === "FRAUD") valueClass = "fraud";
-        else if (data.prediction === "SUSPICIOUS") valueClass = "warning";
+    }catch(error){
 
         singleResult.innerHTML = `
-            <div class="single-title">${title}</div>
-            <div class="single-value ${valueClass}">${data.prediction}</div>
-            <div class="single-details">
-                <div class="detail-item">
-                    <div class="detail-label">Fraud Probability</div>
-                    <div class="detail-value">${(data.fraud_probability * 100).toFixed(2)}%</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Risk Level</div>
-                    <div class="detail-value">${data.risk_level}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Threshold</div>
-                    <div class="detail-value">${data.threshold}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Kafka Status</div>
-                    <div class="detail-value">${data.kafka_status}</div>
-                </div>
+            <div style="color:var(--red);font-weight:800;">
+                ❌ Pattern test failed
             </div>
-        `;
-
-    } catch(error) {
-        singleResult.classList.add("show");
-        singleResult.innerHTML = `
-            <div class="single-title">Prediction Error</div>
-            <div class="single-details" style="color: var(--color-fraud);">
+            <div style="color:var(--muted);margin-top:8px;font-size:12px;">
                 ${error.message}
             </div>
         `;
     }
 }
 
-/* ============================================================
-   BUTTON HANDLERS
-============================================================ */
 
-fraudBtn.addEventListener("click", function() {
-    if (uploadedRows.length === 0) return;
+/* =========================================================
+   FRAUD BUTTON
+========================================================= */
 
-    let fraudRow = null;
-    if (hasClassColumn) {
-        fraudRow = uploadedRows.find(row => Number(row.Class) === 1);
+fraudBtn.addEventListener(
+    "click",
+    function(){
+        testPatternRows(1, "🔥 Fraud Pattern Test");
+    }
+);
+
+
+/* =========================================================
+   NORMAL BUTTON
+========================================================= */
+
+normalBtn.addEventListener(
+    "click",
+    function(){
+        testPatternRows(0, "✓ Normal Pattern Test");
+    }
+);
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
+
+clearBtn.addEventListener(
+    "click",
+    function(){
+
+        singleResult.classList.remove(
+            "show"
+        );
+
+        results.classList.remove(
+            "show"
+        );
+
+        resultsBody.innerHTML = "";
+
+    }
+);
+
+
+/* =========================================================
+   CSV PARSER
+========================================================= */
+
+function parseCSV(text){
+
+    const lines =
+        text
+        .trim()
+        .split(/\r?\n/)
+        .filter(
+            line => line.trim()
+        );
+
+
+    if(lines.length < 2){
+
+        throw new Error(
+            "CSV contains no data rows."
+        );
+
     }
 
-    if (!fraudRow) {
-        showStatus("No fraud transactions found in dataset.", "error");
-        return;
+
+    const headers =
+        lines[0]
+        .split(",")
+        .map(
+            h =>
+                h
+                .trim()
+                .replace(
+                    /^"|"$/g,
+                    ""
+                )
+        );
+
+
+    const index =
+        Object.fromEntries(
+            headers.map(
+                (h,i) => [h,i]
+            )
+        );
+
+
+    const missing =
+        FEATURES.filter(
+            feature =>
+                index[feature] === undefined
+        );
+
+
+    if(missing.length){
+
+        throw new Error(
+            "Missing columns: " +
+            missing.join(", ")
+        );
+
     }
 
-    testSingle(fraudRow, "🔥 Fraud Transaction Test");
-});
 
-normalBtn.addEventListener("click", function() {
-    if (uploadedRows.length === 0) return;
+    const rows = [];
 
-    let normalRow = null;
-    if (hasClassColumn) {
-        normalRow = uploadedRows.find(row => Number(row.Class) === 0);
+
+    for(
+        let i = 1;
+        i < lines.length;
+        i++
+    ){
+
+        const cells =
+            lines[i].split(",");
+
+
+        if(!cells.length)
+            continue;
+
+
+        const row = {};
+
+
+        FEATURES.forEach(
+            feature => {
+
+                const value =
+                    Number(
+                        cells[
+                            index[feature]
+                        ]
+                    );
+
+
+                if(
+                    !Number.isFinite(value)
+                ){
+
+                    throw new Error(
+                        `Invalid value in ${feature}`
+                    );
+
+                }
+
+
+                row[feature] =
+                    value;
+
+            }
+        );
+
+
+        if(
+            index["Class"] !== undefined
+        ){
+
+            row.Class =
+                Number(
+                    cells[
+                        index["Class"]
+                    ]
+                );
+
+        }
+
+
+        rows.push(row);
+
     }
 
-    if (!normalRow) {
-        normalRow = uploadedRows[0];
-    }
 
-    testSingle(normalRow, "✓ Normal Transaction Test");
-});
+    return {
+        headers,
+        rows
+    };
+
+}
+
+
+/* =========================================================
+   FILE SELECT
+========================================================= */
+
+csvFile.addEventListener(
+    "change",
+    async function(event){
+
+        const file =
+            event.target.files[0];
+
+
+        if(!file)
+            return;
+
+
+        try{
+
+            uploadedFileName =
+                file.name;
+
+
+            const text =
+                await file.text();
+
+
+            const parsed =
+                parseCSV(text);
+
+
+            uploadedRows =
+                parsed.rows;
+
+
+            if(
+                uploadedRows.length >
+                5000
+            ){
+
+                uploadedRows =
+                    uploadedRows.slice(
+                        0,
+                        5000
+                    );
+
+            }
+
+
+            fileInfo.classList.add(
+                "show"
+            );
+
+
+            fileName.textContent =
+                "✓ " +
+                uploadedFileName;
+
+
+            fileDetails.textContent =
+
+                uploadedRows.length
+                .toLocaleString()
+
+                +
+
+                " transactions • 30 features"
+
+                +
+
+                (
+                    parsed.rows.length >
+                    5000
+                    ? " • first 5,000 used"
+                    : ""
+                )
+
+                +
+
+                (
+                    parsed.headers.includes(
+                        "Class"
+                    )
+                    ? " • Class column detected"
+                    : ""
+                );
+
+
+            analyzeBtn.disabled =
+                false;
+
+
+            showStatus(
+                "Dataset ready. Click Analyze to process.",
+                "success"
+            );
+
+        }
+
+
+        catch(error){
+
+            uploadedRows = [];
+
+
+            analyzeBtn.disabled =
+                true;
+
+
+            fileInfo.classList.remove(
+                "show"
+            );
+
+
+            showStatus(
+                "Upload error: " +
+                error.message,
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DRAG + DROP
+========================================================= */
+
+uploadBox.addEventListener(
+    "dragover",
+    function(event){
+
+        event.preventDefault();
+
+        uploadBox.classList.add(
+            "dragover"
+        );
+
+    }
+);
+
+
+uploadBox.addEventListener(
+    "dragleave",
+    function(){
+
+        uploadBox.classList.remove(
+            "dragover"
+        );
+
+    }
+);
+
+
+uploadBox.addEventListener(
+    "drop",
+    function(event){
+
+        event.preventDefault();
+
+        uploadBox.classList.remove(
+            "dragover"
+        );
+
+
+        const files =
+            event.dataTransfer.files;
+
+
+        if(files.length){
+
+            const dataTransfer =
+                new DataTransfer();
+
+
+            dataTransfer.items.add(
+                files[0]
+            );
+
+
+            csvFile.files =
+                dataTransfer.files;
+
+
+            csvFile.dispatchEvent(
+                new Event("change")
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   BATCH ANALYSIS
+========================================================= */
+
+analyzeBtn.addEventListener(
+    "click",
+    async function(){
+
+        if(!uploadedRows.length){
+
+            showStatus(
+                "Please upload a CSV first.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        analyzeBtn.disabled =
+            true;
+
+
+        showStatus(
+            "🔄 Analyzing with XGBoost...",
+            "loading"
+        );
+
+
+        try{
+
+            const transactions =
+                uploadedRows.map(
+                    createTransaction
+                );
+
+
+            const response =
+                await fetch(
+                    "/predict_batch",
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                            "application/json"
+                        },
+
+                        body:
+                        JSON.stringify({
+                            transactions
+                        })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if(!response.ok){
+
+                throw new Error(
+                    data.detail ||
+                    "Dataset analysis failed"
+                );
+
+            }
+
+
+            showBatchResults(
+                data,
+                uploadedRows
+            );
+
+
+            showStatus(
+                "✓ Analysis complete. " +
+                data.total_transactions
+                    .toLocaleString() +
+                " transactions processed.",
+                "success"
+            );
+
+        }
+
+
+        catch(error){
+
+            showStatus(
+                "Analysis failed: " +
+                error.message,
+                "error"
+            );
+
+        }
+
+
+        finally{
+
+            analyzeBtn.disabled =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   BATCH RESULTS
+========================================================= */
+
+function showBatchResults(
+    data,
+    originalRows
+){
+
+    results.classList.add(
+        "show"
+    );
+
+
+    const total =
+        Number(
+            data.total_transactions
+        );
+
+
+    const fraud =
+        Number(
+            data.fraud_count
+        );
+
+
+    const suspicious =
+        Number(
+            data.suspicious_count
+        );
+
+
+    const normal =
+        Number(
+            data.normal_count
+        );
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent =
+        total.toLocaleString();
+
+
+    document.getElementById(
+        "fraudCount"
+    ).textContent =
+        fraud.toLocaleString();
+
+
+    document.getElementById(
+        "suspiciousCount"
+    ).textContent =
+        suspicious.toLocaleString();
+
+
+    document.getElementById(
+        "normalCount"
+    ).textContent =
+        normal.toLocaleString();
+
+
+    updateBars(
+        fraud,
+        suspicious,
+        normal
+    );
+
+
+    document.getElementById(
+        "resultSummary"
+    ).textContent =
+        uploadedFileName +
+        " • " +
+        total.toLocaleString() +
+        " transactions analyzed";
+
+
+    resultsBody.innerHTML = "";
+
+
+    data.results.forEach(
+        (item,index) => {
+
+            const original =
+                originalRows[index];
+
+
+            let badge =
+                "badge-normal";
+
+
+            if(
+                item.prediction ===
+                "FRAUD"
+            ){
+
+                badge =
+                    "badge-fraud";
+
+            }
+
+            else if(
+                item.prediction ===
+                "SUSPICIOUS"
+            ){
+
+                badge =
+                    "badge-suspicious";
+
+            }
+
+
+            let actual =
+                "—";
+
+
+            if(
+                original &&
+                original.Class !== undefined
+            ){
+
+                actual =
+                    Number(
+                        original.Class
+                    ) === 1
+                    ? "🔴 Fraud"
+                    : "🟢 Normal";
+
+            }
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${item.transaction}
+                </td>
+
+                <td>
+                    ₹${Number(
+                        item.amount
+                    ).toFixed(2)}
+                </td>
+
+                <td>
+                    <b>
+                        ${(
+                            Number(
+                                item.fraud_probability
+                            ) * 100
+                        ).toFixed(2)}%
+                    </b>
+                </td>
+
+                <td>
+
+                    <span
+                        class="badge ${badge}"
+                    >
+
+                        ${item.prediction}
+
+                    </span>
+
+                </td>
+
+                <td>
+                    ${item.risk_level}
+                </td>
+
+                <td>
+                    ${actual}
+                </td>
+
+            `;
+
+
+            resultsBody.appendChild(
+                row
+            );
+
+        }
+    );
+
+
+    results.scrollIntoView({
+
+        behavior:"smooth",
+
+        block:"start"
+
+    });
+
+}
 
 </script>
 
+
 </body>
+
 </html>
